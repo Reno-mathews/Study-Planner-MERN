@@ -88,6 +88,10 @@ function App() {
             {task.title} - <strong>{task.subject}</strong>
             </span>
 
+            <span>
+             
+            </span>
+
             <button onClick={() => toggleComplete(task.id)}>
               {task.completed ? "Undo" : "Complete"}
             </button>
