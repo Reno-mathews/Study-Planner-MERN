@@ -31,7 +31,6 @@ function App() {
     const data = await res.json();
     setTasks([...tasks, data]);
     setNewTask("");
-    setSubject("");
   };
 
     const toggleComplete = async (id) => {
@@ -68,13 +67,6 @@ function App() {
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
         />
-
-        <input
-          type="text"
-          placeholder="Enter subject"
-          value={subject}
-          onChange={(e) => setSubject(e.target.value)}
-        />
         <button type="submit">Add</button>
       </form>
 
@@ -86,10 +78,6 @@ function App() {
             }}
             >
               {task.title}
-            </span>
-
-            <span>
-              {task.title} - <strong>{task.subject}</strong>
             </span>
 
             <button onClick={() => toggleComplete(task.id)}>

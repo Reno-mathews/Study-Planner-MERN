@@ -74,7 +74,6 @@ function App() {
           placeholder="Enter subject"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
-        />
         <button type="submit">Add</button>
       </form>
 
@@ -86,10 +85,6 @@ function App() {
             }}
             >
               {task.title}
-            </span>
-
-            <span>
-              {task.title} - <strong>{task.subject}</strong>
             </span>
 
             <button onClick={() => toggleComplete(task.id)}>
