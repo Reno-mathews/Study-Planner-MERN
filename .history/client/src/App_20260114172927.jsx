@@ -63,7 +63,7 @@ function App() {
     filterSubject === "All" ? true: task.subject === filterSubject
   );
 
-  const completedCount = filteredTasks.filter((task) => task.completed).length;
+  const completetCount = filteredTasks.filter((task) => task.completed).length;
   const totalCount = filteredTasks.length;
 
   const progress = totalCount === 0 ? 0 : Math.round((completedCount / totalCount) * 100);
@@ -117,7 +117,7 @@ function App() {
         <button type="submit">Add</button>
       </form>
 
-      {filteredTasks
+      {tasks
         .filter((task) =>
           filterSubject === "All" ? true: task.subject === filterSubject
       )

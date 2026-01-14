@@ -1,10 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-require("dotenv").config();
-
-const Task = require("./models/Task");
-
 const app = express();
 const PORT = 5000;
 
@@ -12,7 +8,10 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-//MongoDB connection
+// Temporary data(fake database)
+
+const Task = require("./models/Task");
+
 mongoose
     .connect(process.env.MONGO_URI)
     .then(() => console.log("MongoDB connected"))

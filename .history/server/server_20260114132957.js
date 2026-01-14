@@ -1,10 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-require("dotenv").config();
-
-const Task = require("./models/Task");
-
 const app = express();
 const PORT = 5000;
 
@@ -12,7 +8,10 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-//MongoDB connection
+// Temporary data(fake database)
+
+const Task = require("./models/Task");
+
 mongoose
     .connect(process.env.MONGO_URI)
     .then(() => console.log("MongoDB connected"))
@@ -53,8 +52,16 @@ app.patch("/api/tasks/:id", async (req,res) => {
 });
 
 // Route: Delete a task
-app.delete("/api/tasks/:id", async (req,res) => {
-    await Task.findByIdAndDelete(req.params.id);
+app.delete("/api/tasks/:id", (req,res) => {
+    const id = Number(req.params.id);
+
+    const taskIndex = tasks.findIndex((t) => t.id === id);
+
+    if (taskIndex === -1) {
+        return res.status(404).json({ message: "Task not found"});
+    }
+
+    tasks.splice(taskIndex, 1);
     res.json({ message: "Task deleted"});
 });
 

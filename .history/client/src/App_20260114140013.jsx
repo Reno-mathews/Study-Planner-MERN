@@ -44,7 +44,7 @@ function App() {
 
       setTasks(
         tasks.map((task) =>
-        task._id === id ? updatedTask : task 
+        task.id === id ? updatedTask : task 
       )
       );
     };
@@ -54,19 +54,10 @@ function App() {
         method: "DELETE",
       });
 
-      setTasks(tasks.filter((task) => task._id !== id));
+      setTasks(tasks.filter((task) => task.id !== id));
     };
 
     const subjects = ["All", ...new Set(tasks.map((task) => task.subject))];
-
-    const filteredTasks = tasks.filter((task) =>
-    filterSubject === "All" ? true: task.subject === filterSubject
-  );
-
-  const completedCount = filteredTasks.filter((task) => task.completed).length;
-  const totalCount = filteredTasks.length;
-
-  const progress = totalCount === 0 ? 0 : Math.round((completedCount / totalCount) * 100);
   
 
   return (
@@ -83,21 +74,6 @@ function App() {
           </option>
         ))}
       </select>
-
-      <div style={{ margin: "20px 0"}}>
-        <p>Progress: {progress}%</p>
-        <div style={{ width: "100%", background: "#ddd", height: "20px", borderRadius: "10px"}}>
-          <div  
-            style={{
-                width: `${progress}%`,
-                background: "green",
-                height: "100%",
-                borderRadius: "10px",
-                transition: "width 0.3s ease",
-            }}
-        ></div>
-        </div>
-      </div>
 
       <form onSubmit={addTask}>
         <input
@@ -117,7 +93,7 @@ function App() {
         <button type="submit">Add</button>
       </form>
 
-      {filteredTasks
+      {tasks
         .filter((task) =>
           filterSubject === "All" ? true: task.subject === filterSubject
       )
@@ -135,7 +111,7 @@ function App() {
               {task.completed ? "Undo" : "Complete"}
             </button>
 
-            <button onClick={() => deleteTask(task._id)}>
+            <button onClick={() => deleteTask(task.id)}>
               Delete
             </button>
         </div>

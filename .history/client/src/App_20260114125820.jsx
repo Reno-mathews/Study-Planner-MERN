@@ -19,7 +19,7 @@ function App() {
   const addTask = async (e) => {
     e.preventDefault();
 
-    if(!newTask || !subject) return;
+    if(!newTask) return;
 
     const res = await fetch("http://localhost:5000/api/tasks", {
       method: "POST",
@@ -44,7 +44,7 @@ function App() {
 
       setTasks(
         tasks.map((task) =>
-        task._id === id ? updatedTask : task 
+        task.id === id ? updatedTask : task 
       )
       );
     };
@@ -54,50 +54,13 @@ function App() {
         method: "DELETE",
       });
 
-      setTasks(tasks.filter((task) => task._id !== id));
+      setTasks(tasks.filter((task) => task.id !== id));
     };
-
-    const subjects = ["All", ...new Set(tasks.map((task) => task.subject))];
-
-    const filteredTasks = tasks.filter((task) =>
-    filterSubject === "All" ? true: task.subject === filterSubject
-  );
-
-  const completedCount = filteredTasks.filter((task) => task.completed).length;
-  const totalCount = filteredTasks.length;
-
-  const progress = totalCount === 0 ? 0 : Math.round((completedCount / totalCount) * 100);
   
 
   return (
     <div>
       <h1>My Study Planner</h1>
-
-      <select 
-        value={filterSubject} 
-        onChange={(e) => setFilterSubject(e.target.value)}
-      >
-        {subjects.map((subj, index) => (
-          <option key={index} value={subj}>
-            {subj}
-          </option>
-        ))}
-      </select>
-
-      <div style={{ margin: "20px 0"}}>
-        <p>Progress: {progress}%</p>
-        <div style={{ width: "100%", background: "#ddd", height: "20px", borderRadius: "10px"}}>
-          <div  
-            style={{
-                width: `${progress}%`,
-                background: "green",
-                height: "100%",
-                borderRadius: "10px",
-                transition: "width 0.3s ease",
-            }}
-        ></div>
-        </div>
-      </div>
 
       <form onSubmit={addTask}>
         <input
@@ -113,16 +76,11 @@ function App() {
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
         />
-
         <button type="submit">Add</button>
       </form>
 
-      {filteredTasks
-        .filter((task) =>
-          filterSubject === "All" ? true: task.subject === filterSubject
-      )
-      .map((task) =>(
-        <div key={task._id}>
+      {tasks.map((task) => (
+        <div key={task.id}>
           <span
             style={{
               textDecoration: task.completed ? "line-through" : "none",
@@ -131,11 +89,11 @@ function App() {
             {task.title} - <strong>{task.subject}</strong>
             </span>
 
-            <button onClick={() => toggleComplete(task._id)}>
+            <button onClick={() => toggleComplete(task.id)}>
               {task.completed ? "Undo" : "Complete"}
             </button>
 
-            <button onClick={() => deleteTask(task._id)}>
+            <button onClick={() => deleteTask(task.id)}>
               Delete
             </button>
         </div>
