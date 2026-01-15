@@ -43,7 +43,7 @@ app.post("/api/tasks", authMiddleware, async (req,res) => {
 
 // Route: Complete a task
 
-app.patch("/api/tasks/:id", authMiddleware, async (req,res) => {
+app.patch("/api/tasks/:id", async (req,res) => {
     const task = await Task.findById(req.params.id);
 
     if(!task) {
@@ -57,14 +57,14 @@ app.patch("/api/tasks/:id", authMiddleware, async (req,res) => {
 });
 
 // Route: Delete a task
-app.delete("/api/tasks/:id", authMiddleware, async (req,res) => {
+app.delete("/api/tasks/:id", async (req,res) => {
     await Task.findByIdAndDelete(req.params.id);
     res.json({ message: "Task deleted"});
 });
 
 
 // Register Route
-app.post("/api/auth/register", authMiddleware, async (req,res) => {
+app.post("/api/auth/register", async (req,res) => {
     const { email, password } = req.body;
 
     const existingUser = await User.findOne({ email });
@@ -85,7 +85,7 @@ app.post("/api/auth/register", authMiddleware, async (req,res) => {
 });
 
 // Login Route
-app.post("/api/auth/login", authMiddleware, async (req,res) => {
+app.post("/api/auth/login", async (req,res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });

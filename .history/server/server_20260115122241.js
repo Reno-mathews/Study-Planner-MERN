@@ -64,7 +64,7 @@ app.delete("/api/tasks/:id", authMiddleware, async (req,res) => {
 
 
 // Register Route
-app.post("/api/auth/register", authMiddleware, async (req,res) => {
+app.post("/api/auth/register", async (req,res) => {
     const { email, password } = req.body;
 
     const existingUser = await User.findOne({ email });
@@ -85,7 +85,7 @@ app.post("/api/auth/register", authMiddleware, async (req,res) => {
 });
 
 // Login Route
-app.post("/api/auth/login", authMiddleware, async (req,res) => {
+app.post("/api/auth/login", async (req,res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
