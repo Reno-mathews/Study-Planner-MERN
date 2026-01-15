@@ -61,28 +61,6 @@ app.delete("/api/tasks/:id", async (req,res) => {
     res.json({ message: "Task deleted"});
 });
 
-
-// Register Route
-app.post("/api/auth/register", async (req,res) => {
-    const { email, password } = req.body;
-
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-        return res.status(400).json({ message: "User already exists "});
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = new User({
-        email,
-        password: hashedPassword,
-    });
-
-    await newUser.save();
-
-    res.json({ message: "User resgistered successfully" });
-})
-
 // Start server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
