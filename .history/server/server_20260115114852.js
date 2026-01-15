@@ -83,23 +83,6 @@ app.post("/api/auth/register", async (req,res) => {
     res.json({ message: "User resgistered successfully" });
 });
 
-// Login Route
-app.post("/api/auth/login", async (req,res) => {
-    const { email, password } = req.body;
-
-    const user = await User.findOne({ email });
-    if (!user) {
-        return res.status(400).json({ message: "Invalid credentials "});
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if(!isMatch) {
-        return res.status(400).json({ message: "Invalid credentials" });
-    }
-
-    const token = jwt.sign
-})
-
 // Start server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
