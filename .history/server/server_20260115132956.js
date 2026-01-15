@@ -35,7 +35,7 @@ app.post("/api/tasks", authMiddleware, async (req,res) => {
         title: req.body.title,
         subject: req.body.subject,
         completed: false,
-        userId: req.user.userId, // coming from JWT middleware
+        userId: req.user.userId,
     });
 
     const savedTask = await newTask.save();
