@@ -238,14 +238,10 @@ function App() {
           onChange={(e) => setSubject(e.target.value)}
         />
 
-        <button 
-          className = "w-full bg-blue-600 hover:bg-blue-700 py-2 rounded font-semibold"
-          type="submit">Add</button>
+        <button type="submit">Add</button>
       </form>
 
-      <button 
-        className="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded font-semibold"
-        onClick={() => {
+      <button onClick={() => {
         localStorage.removeItem("token");
         setIsLoggedIn(false);
       }}>
@@ -268,15 +264,11 @@ function App() {
             {task.title} - <strong>{task.subject}</strong>
             </span>
 
-            <button 
-            className = "w-full bg-blue-600 hover:bg-blue-700 py-2 rounded font-semibold"
-            onClick={() => toggleComplete(task._id)}>
+            <button onClick={() => toggleComplete(task._id)}>
               {task.completed ? "Undo" : "Complete"}
             </button>
 
-            <button 
-              className = "w-full bg-blue-600 hover:bg-blue-700 py-2 rounded font-semibold"
-              onClick={() => deleteTask(task._id)}>
+            <button onClick={() => deleteTask(task._id)}>
               Delete
             </button>
         </div>

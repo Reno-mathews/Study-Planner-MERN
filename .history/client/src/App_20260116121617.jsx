@@ -243,9 +243,7 @@ function App() {
           type="submit">Add</button>
       </form>
 
-      <button 
-        className="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded font-semibold"
-        onClick={() => {
+      <button onClick={() => {
         localStorage.removeItem("token");
         setIsLoggedIn(false);
       }}>

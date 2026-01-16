@@ -164,10 +164,7 @@ function App() {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button
-              className="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded font-semibold"
-              type="submit"
-              >
+            <button type="submit">
               {isSignup ? "Signup" : "Login"}
             </button>
           </form>
@@ -175,7 +172,6 @@ function App() {
           <p>
             {isSignup ? "Already have an account?" : " Don't have an account?"}
             <button
-              className="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded font-semibold"
               onClick={() => setIsSignup(!isSignup)}
               style={{ marginLeft: "10px" }}
             >
@@ -187,7 +183,7 @@ function App() {
     }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+    <div>
       <h1>My Study Planner</h1>
 
       <select 
@@ -201,13 +197,10 @@ function App() {
         ))}
       </select>
 
-      <div 
-      className="min-h-screen flex items-center justify-center bg-gray-900 text-white"
-      >
+      <div style={{ margin: "20px 0"}}>
         <p>Progress: {progress}%</p>
-        <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
-          <div
-            className="min-h-screen flex items-center justify-center bg-gray-900 text-white"  
+        <div style={{ width: "100%", background: "#ddd", height: "20px", borderRadius: "10px"}}>
+          <div  
             style={{
                 width: `${progress}%`,
                 background: "green",
@@ -219,11 +212,8 @@ function App() {
         </div>
       </div>
 
-      <form 
-      className = "bg-gray-800 p-8 rounded-lg shadow-lg w-96 space-y-4"
-      onSubmit={addTask}>
+      <form onSubmit={addTask}>
         <input
-        className = "w-full px-4 py-2 rounded bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="text"
           placeholder="Enter task"
           value={newTask}
@@ -231,21 +221,16 @@ function App() {
         />
 
         <input
-          className= "w-full px-4 py-2 rounded bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="text"
           placeholder="Enter subject"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
         />
 
-        <button 
-          className = "w-full bg-blue-600 hover:bg-blue-700 py-2 rounded font-semibold"
-          type="submit">Add</button>
+        <button type="submit">Add</button>
       </form>
 
-      <button 
-        className="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded font-semibold"
-        onClick={() => {
+      <button onClick={() => {
         localStorage.removeItem("token");
         setIsLoggedIn(false);
       }}>
@@ -257,9 +242,7 @@ function App() {
           filterSubject === "All" ? true: task.subject === filterSubject
       )
       .map((task) =>(
-        <div 
-        className="min-h-screen flex items-center justify-center bg-gray-900 text-white"
-        key={task._id}>
+        <div key={task._id}>
           <span
             style={{
               textDecoration: task.completed ? "line-through" : "none",
@@ -268,15 +251,11 @@ function App() {
             {task.title} - <strong>{task.subject}</strong>
             </span>
 
-            <button 
-            className = "w-full bg-blue-600 hover:bg-blue-700 py-2 rounded font-semibold"
-            onClick={() => toggleComplete(task._id)}>
+            <button onClick={() => toggleComplete(task._id)}>
               {task.completed ? "Undo" : "Complete"}
             </button>
 
-            <button 
-              className = "w-full bg-blue-600 hover:bg-blue-700 py-2 rounded font-semibold"
-              onClick={() => deleteTask(task._id)}>
+            <button onClick={() => deleteTask(task._id)}>
               Delete
             </button>
         </div>
