@@ -165,16 +165,10 @@ function App() {
           </form>
 
           <p>
-            {isSignup ? "Already have an account?" : " Don't have an account?"}
-            <button
-              onClick={() => setIsSignup(!isSignup)}
-              style={{ marginLeft: "10px" }}
-            >
-              {isSignup ? "Login" : "Signup"}
-            </button>
+            
           </p>
         </div>
-      );
+      )
     }
 
   return (

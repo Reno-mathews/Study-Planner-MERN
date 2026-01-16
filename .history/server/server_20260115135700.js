@@ -62,16 +62,15 @@ app.patch("/api/tasks/:id", authMiddleware, async (req,res) => {
 
 // Route: Delete a task
 app.delete("/api/tasks/:id", authMiddleware, async (req,res) => {
-    const deleted = await Task.findOneAndDelete({
+    await Task.findOneAndDelete({
         _id: req.params.id,
         userId: req.user.userId,
     });
+    res.json({ message: "Task deleted"});
 
     if(!deleted) {
         return res.status(404).json({ message: "Task not found"});
     }
-
-    res.json({ message: "Task deleted"});
 });
 
 

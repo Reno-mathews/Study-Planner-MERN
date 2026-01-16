@@ -13,14 +13,11 @@ function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-
-  const[isSignup, setIsSignup] = useState(false);
+  
 
   useEffect(() => {
-    if(isLoggedIn) {
     fetchTasks();
-    }
-  }, [isLoggedIn]);
+  }, []);
 
   const fetchTasks = async () => {
     const token = localStorage.getItem("token");
@@ -92,90 +89,11 @@ function App() {
     filterSubject === "All" ? true: task.subject === filterSubject
   );
 
-      const login = async (e) => {
-      e.preventDefault();
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if(data.token) {
-        localStorage.setItem("token", data.token);
-        setIsLoggedIn(true);
-        fetchTasks();
-      } else {
-        alert("Login failed");
-      }
-    };
-
-    const signup = async (e) => {
-      e.preventDefault();
-
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type" : "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert("Signup successful! You can now log in.");
-        setIsSignup(false);
-      } else {
-        alert(data.message || "Signup failed");
-      }
-    };
-
   const completedCount = filteredTasks.filter((task) => task.completed).length;
   const totalCount = filteredTasks.length;
 
   const progress = totalCount === 0 ? 0 : Math.round((completedCount / totalCount) * 100);
   
-    if (!isLoggedIn) {
-      return (
-        <div>
-          <h2>{isSignup ? "Signup" : "Login" }</h2>
-
-          <form onSubmit={isSignup ? signup : login}>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <button type="submit">
-              {isSignup ? "Signup" : "Login"}
-            </button>
-          </form>
-
-          <p>
-            {isSignup ? "Already have an account?" : " Don't have an account?"}
-            <button
-              onClick={() => setIsSignup(!isSignup)}
-              style={{ marginLeft: "10px" }}
-            >
-              {isSignup ? "Login" : "Signup"}
-            </button>
-          </p>
-        </div>
-      );
-    }
 
   return (
     <div>
@@ -224,13 +142,6 @@ function App() {
 
         <button type="submit">Add</button>
       </form>
-
-      <button onClick={() => {
-        localStorage.removeItem("token");
-        setIsLoggedIn(false);
-      }}>
-        Logout
-      </button>
 
       {filteredTasks
         .filter((task) =>

@@ -46,7 +46,7 @@ app.post("/api/tasks", authMiddleware, async (req,res) => {
 
 app.patch("/api/tasks/:id", authMiddleware, async (req,res) => {
     const task = await Task.findOne({
-    _id: req.params.id,
+        _id: req.params.id,
     userId: req.user.userId,
 });
 
@@ -62,15 +62,10 @@ app.patch("/api/tasks/:id", authMiddleware, async (req,res) => {
 
 // Route: Delete a task
 app.delete("/api/tasks/:id", authMiddleware, async (req,res) => {
-    const deleted = await Task.findOneAndDelete({
+    await Task.findOneAndDelete({
         _id: req.params.id,
-        userId: req.user.userId,
+        user_id: req.user.userId,
     });
-
-    if(!deleted) {
-        return res.status(404).json({ message: "Task not found"});
-    }
-
     res.json({ message: "Task deleted"});
 });
 
@@ -97,7 +92,7 @@ app.post("/api/auth/register", async (req,res) => {
 });
 
 // Login Route
-app.post("/api/auth/login", async (req,res) => {
+app.post("/api/auth/login", authMiddleware, async (req,res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });

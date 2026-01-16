@@ -140,41 +140,7 @@ function App() {
   const progress = totalCount === 0 ? 0 : Math.round((completedCount / totalCount) * 100);
   
     if (!isLoggedIn) {
-      return (
-        <div>
-          <h2>{isSignup ? "Signup" : "Login" }</h2>
-
-          <form onSubmit={isSignup ? signup : login}>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <button type="submit">
-              {isSignup ? "Signup" : "Login"}
-            </button>
-          </form>
-
-          <p>
-            {isSignup ? "Already have an account?" : " Don't have an account?"}
-            <button
-              onClick={() => setIsSignup(!isSignup)}
-              style={{ marginLeft: "10px" }}
-            >
-              {isSignup ? "Login" : "Signup"}
-            </button>
-          </p>
-        </div>
-      );
+      
     }
 
   return (

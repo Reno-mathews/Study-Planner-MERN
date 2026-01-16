@@ -14,13 +14,10 @@ function App() {
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 
-  const[isSignup, setIsSignup] = useState(false);
 
   useEffect(() => {
-    if(isLoggedIn) {
     fetchTasks();
-    }
-  }, [isLoggedIn]);
+  }, []);
 
   const fetchTasks = async () => {
     const token = localStorage.getItem("token");
@@ -113,27 +110,6 @@ function App() {
       }
     };
 
-    const signup = async (e) => {
-      e.preventDefault();
-
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type" : "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert("Signup successful! You can now log in.");
-        setIsSignup(false);
-      } else {
-        alert(data.message || "Signup failed");
-      }
-    };
-
   const completedCount = filteredTasks.filter((task) => task.completed).length;
   const totalCount = filteredTasks.length;
 
@@ -142,10 +118,10 @@ function App() {
     if (!isLoggedIn) {
       return (
         <div>
-          <h2>{isSignup ? "Signup" : "Login" }</h2>
+          <h2>Login</h2>
 
-          <form onSubmit={isSignup ? signup : login}>
-            <input
+          <form onSubmit={login}>
+            <input 
               type="email"
               placeholder="Email"
               value={email}
@@ -159,20 +135,8 @@ function App() {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button type="submit">
-              {isSignup ? "Signup" : "Login"}
-            </button>
+            <button type="submit">Login</button>
           </form>
-
-          <p>
-            {isSignup ? "Already have an account?" : " Don't have an account?"}
-            <button
-              onClick={() => setIsSignup(!isSignup)}
-              style={{ marginLeft: "10px" }}
-            >
-              {isSignup ? "Login" : "Signup"}
-            </button>
-          </p>
         </div>
       );
     }

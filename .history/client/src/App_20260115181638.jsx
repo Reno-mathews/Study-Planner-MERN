@@ -142,10 +142,10 @@ function App() {
     if (!isLoggedIn) {
       return (
         <div>
-          <h2>{isSignup ? "Signup" : "Login" }</h2>
+          <h2>Login</h2>
 
-          <form onSubmit={isSignup ? signup : login}>
-            <input
+          <form onSubmit={login}>
+            <input 
               type="email"
               placeholder="Email"
               value={email}
@@ -159,20 +159,8 @@ function App() {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button type="submit">
-              {isSignup ? "Signup" : "Login"}
-            </button>
+            <button type="submit">Login</button>
           </form>
-
-          <p>
-            {isSignup ? "Already have an account?" : " Don't have an account?"}
-            <button
-              onClick={() => setIsSignup(!isSignup)}
-              style={{ marginLeft: "10px" }}
-            >
-              {isSignup ? "Login" : "Signup"}
-            </button>
-          </p>
         </div>
       );
     }
