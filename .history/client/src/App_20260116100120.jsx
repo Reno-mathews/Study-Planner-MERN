@@ -149,7 +149,6 @@ function App() {
           className="bg-gray-800 p-8 rounded-lg shadow-lg w-96 space-y-4"
           >
             <input
-              className=""
               type="email"
               placeholder="Email"
               value={email}
