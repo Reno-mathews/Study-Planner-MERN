@@ -147,7 +147,7 @@ function App() {
 
           <form 
           onSubmit={isSignup ? signup : login}
-          className="space-y-4"
+          className="bg-gray-800 p-8 rounded-lg shadow-lg w-96 space-y-4"
           >
             <input
               className="w-full px-4 py-2 rounded bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
