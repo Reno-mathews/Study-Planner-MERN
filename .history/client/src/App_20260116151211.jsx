@@ -235,7 +235,7 @@ function App() {
         Add a new task
       </h2>
         <input
-        className = "w-full px-4 py-2 rounded bg-gray-700/80 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className = "w-full px-4 py-2 rounded bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="text"
           placeholder="Enter task"
           value={newTask}
@@ -243,7 +243,7 @@ function App() {
         />
 
         <input
-          className= "w-full px-4 py-2 rounded bg-gray-700/80 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className= "w-full px-4 py-2 rounded bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="text"
           placeholder="Enter subject"
           value={subject}
@@ -252,9 +252,7 @@ function App() {
 
         <button 
           className = "w-full bg-blue-600 hover:bg-blue-700 py-2 rounded font-semibold"
-          type="submit"
-          disabled={!newTask || !subject}
-          >Add</button>
+          type="submit">Add</button>
       </form>
 
       <button 
