@@ -191,8 +191,8 @@ function App() {
     }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-start py-10">
-      <div className="w-full max-w-md px-4 space-y-6 flex flex-col items-center">
+    <div className="min-h-screen bg-gray-900 text-white p-8 flex justify-center">
+      <div className="w-full max-w-md space-y-6">
       <h1 className="text-3xl font-bold"
       >My Study Planner</h1>
 
@@ -209,7 +209,7 @@ function App() {
       </select>
 
       <div 
-      className="w-full mb-8"
+      className="w-full max-w-md mb-8"
       >
         <p className="mb-2 text-sm text-gray-300">
           Progress: {progress}%
@@ -270,7 +270,7 @@ function App() {
         Logout
       </button>
 
-      <div className="w-full space-y-4">
+      <div className="w-full max-w-md space-y-4">
         {filteredTasks.map((task) => (
           <div
             key={task._id}

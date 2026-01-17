@@ -191,8 +191,8 @@ function App() {
     }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-start py-10">
-      <div className="w-full max-w-md px-4 space-y-6 flex flex-col items-center">
+    <div className="min-h-screen bg-gray-900 text-white p-8 flex items-center justify-center">
+      <div className="w-full max-w-md space-y-6">
       <h1 className="text-3xl font-bold"
       >My Study Planner</h1>
 

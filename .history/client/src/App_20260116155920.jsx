@@ -142,7 +142,7 @@ function App() {
     if (!isLoggedIn) {
       return (
         <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
-          <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full space-y-6">
+          <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-96 space-y-6">
           <h2 className="text-2xl font-bold text-center">
             {isSignup ? "Signup" : "Login" }
           </h2>
@@ -191,8 +191,7 @@ function App() {
     }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-start py-10">
-      <div className="w-full max-w-md px-4 space-y-6 flex flex-col items-center">
+    <div className="min-h-screen flex flex-col items-center bg-gray-900 text-white p-8">
       <h1 className="text-3xl font-bold"
       >My Study Planner</h1>
 
@@ -209,7 +208,7 @@ function App() {
       </select>
 
       <div 
-      className="w-full mb-8"
+      className="w-full max-w-md mb-8"
       >
         <p className="mb-2 text-sm text-gray-300">
           Progress: {progress}%
@@ -230,7 +229,7 @@ function App() {
       </div>
 
       <form
-      className = "bg-gray-800 p-8 rounded-lg shadow-lg w-full space-y-4"
+      className = "bg-gray-800 p-8 rounded-lg shadow-lg w-96 space-y-4"
       onSubmit={addTask}>
       <h2 className="text-xl font-semibold text-center mb-2" >
         Add a new task
@@ -270,7 +269,7 @@ function App() {
         Logout
       </button>
 
-      <div className="w-full space-y-4">
+      <div className="w-full max-w-md space-y-4">
         {filteredTasks.map((task) => (
           <div
             key={task._id}
@@ -306,7 +305,6 @@ function App() {
         ))}
       </div>
     </div>
-  </div>
   );
 }
 
