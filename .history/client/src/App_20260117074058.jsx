@@ -147,7 +147,7 @@ function App() {
             {isSignup ? "Signup" : "Login" }
           </h2>
 
-          <form  
+          <form 
           onSubmit={isSignup ? signup : login}
           className="space-y-4"
           >
