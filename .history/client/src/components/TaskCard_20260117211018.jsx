@@ -9,10 +9,7 @@ function TaskCard({ task, onToggle, onDelete}) {
                     >
                         {task.title}
                     </p>
-                    <p className="text-sm text-gray-400">{task.subject}</p>
-                    </div>
-
-                    <div className="flex gap-2">
+                    <p className="flex gap-2">
                         <button
                             className="bg-green-600 hove:bg-green-700 px-3 py-1 rounded text-sm transition"
                             onClick={() => onToggle(task._id)}
@@ -26,9 +23,8 @@ function TaskCard({ task, onToggle, onDelete}) {
                         >
                             Delete
                         </button>
-                    </div>
+                    </p>
             </div>
+        </div>
     )
 }
-
-export default TaskCard;

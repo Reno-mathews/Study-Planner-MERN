@@ -30,5 +30,3 @@ function TaskCard({ task, onToggle, onDelete}) {
             </div>
     )
 }
-
-export default TaskCard;

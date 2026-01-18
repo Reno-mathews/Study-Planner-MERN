@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import TaskCard from "./components/TaskCard";
+import TaskCard from "./TaskCard";
 
 function App() {
   const [tasks, setTasks] = useState([]);

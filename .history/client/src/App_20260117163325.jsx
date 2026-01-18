@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import TaskCard from "./components/TaskCard";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -17,11 +16,7 @@ function App() {
 
   const[isSignup, setIsSignup] = useState(false);
 
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const [sortType, setSortType] = useState("az");
-
-  const [loading, setLoading] = useState(false);
+  const [seachQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if(isLoggedIn) {
@@ -31,34 +26,15 @@ function App() {
 
   const fetchTasks = async () => {
     const token = localStorage.getItem("token");
-
-    if (!token) return;
-
-    try { 
-    setLoading(true);
-
     const res = await fetch("http://localhost:5000/api/tasks", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-
-    if(!res.ok) {
-      if (res.status === 401) {
-        setIsLoggedIn(false);
-        localStorage.removeItem("token");
-        return;
-      }
-      throw new Error("Failed to fetch tasks");
-    }
     const data = await res.json();
-    setTasks(Array.isArray(data) ? data: []);
-  } catch(err) {
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
+    setTasks(data);
   };
+
   const addTask = async (e) => {
     e.preventDefault();
 
@@ -124,14 +100,6 @@ function App() {
 
           return matchesSubject && matchesSearch;
 });
-
-    const sortedTasks = [...filteredTasks].sort((a, b) => {
-      if(sortType === "az") {
-        return a.title.localeCompare(b.title);
-      } else {
-        return b.title.localeCompare(a.title);
-      }
-    });
 
       const login = async (e) => {
       e.preventDefault();
@@ -269,6 +237,11 @@ function App() {
         ></div>
         </div>
       </div>
+
+      <form
+      className = "bg-gray-800 p-8 rounded-lg shadow-lg w-full space-y-4"
+      onSubmit={addTask}>
+
       <input 
         type="text"
         placeholder="Search tasks..."
@@ -276,21 +249,6 @@ function App() {
         onChange={(e) => setSearchQuery(e.target.value)}
         className="w-full px-4 py-2 rounded bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-
-      {/* Sort */}
-
-      <select 
-        value={sortType}
-        onChange={(e) => setSortType(e.target.value)}
-        className="w-full bg-gray-800 text-white px-4 py-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      > 
-      <option value="az">Title: A → Z </option>
-      <option value="za">Title: Z → A</option>
-        </select><form
-      className = "bg-gray-800 p-8 rounded-lg shadow-lg w-full space-y-4"
-      onSubmit={addTask}>
-
-
       <h2 className="text-xl font-semibold text-center mb-2" >
         Add a new task
       </h2>
@@ -328,18 +286,45 @@ function App() {
 
         Logout
       </button>
-      {sortedTasks.map((task) => (
-        <TaskCard
-          key={task._id}
-          task={task}
-          onToggle={toggleComplete}
-          onDelete={deleteTask}
-        />
-      ))}
-</div>
-</div>
+
+      <div className="w-full space-y-4">
+        {filteredTasks.map((task) => (
+          <div
+            key={task._id}
+            className="bg-gray-800 p-4 rounded-lg shadow flex items-center justify-between"
+            >
+              <div>
+                <p  
+                  className={`font-medium ${
+                    task.completed ? "line-through text-gray-400" : ""
+                  }`}
+                >
+                  {task.title}
+                </p>
+                <p className="text-sm text-gray-400">{task.subject}</p>
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  className="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm transition"
+                  onClick={() => toggleComplete(task._id)}
+                >
+                  {task.completed ? "Undo" : "Done"}
+                </button>
+
+                <button
+                  className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm transition"
+                  onClick={() => deleteTask(task._id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+        ))}
+      </div>
+    </div>
+  </div>
   );
 }
-      
 
 export default App;

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import TaskCard from "./components/TaskCard";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -33,10 +32,6 @@ function App() {
     const token = localStorage.getItem("token");
 
     if (!token) return;
-
-    try { 
-    setLoading(true);
-
     const res = await fetch("http://localhost:5000/api/tasks", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -49,16 +44,12 @@ function App() {
         localStorage.removeItem("token");
         return;
       }
-      throw new Error("Failed to fetch tasks");
+      return;
     }
     const data = await res.json();
     setTasks(Array.isArray(data) ? data: []);
-  } catch(err) {
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
   };
+
   const addTask = async (e) => {
     e.preventDefault();
 
@@ -328,18 +319,45 @@ function App() {
 
         Logout
       </button>
-      {sortedTasks.map((task) => (
-        <TaskCard
-          key={task._id}
-          task={task}
-          onToggle={toggleComplete}
-          onDelete={deleteTask}
-        />
-      ))}
-</div>
-</div>
+
+      <div className="w-full space-y-4">
+        {sortedTasks.map((task) => (
+          <div
+            key={task._id}
+            className="bg-gray-800 p-4 rounded-lg shadow flex items-center justify-between"
+            >
+              <div>
+                <p  
+                  className={`font-medium ${
+                    task.completed ? "line-through text-gray-400" : ""
+                  }`}
+                >
+                  {task.title}
+                </p>
+                <p className="text-sm text-gray-400">{task.subject}</p>
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  className="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm transition"
+                  onClick={() => toggleComplete(task._id)}
+                >
+                  {task.completed ? "Undo" : "Done"}
+                </button>
+
+                <button
+                  className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm transition"
+                  onClick={() => deleteTask(task._id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+        ))}
+      </div>
+    </div>
+  </div>
   );
 }
-      
 
 export default App;

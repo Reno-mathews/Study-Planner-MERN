@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import TaskCard from "./components/TaskCard";
+import TaskCard from "./TaskCard";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -328,14 +328,6 @@ function App() {
 
         Logout
       </button>
-      {sortedTasks.map((task) => (
-        <TaskCard
-          key={task._id}
-          task={task}
-          onToggle={toggleComplete}
-          onDelete={deleteTask}
-        />
-      ))}
 </div>
 </div>
   );
