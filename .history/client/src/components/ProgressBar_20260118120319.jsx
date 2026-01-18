@@ -10,6 +10,10 @@ function ProgressBar({ progress }) {
                     className="bg-green-500 h-full transition-all duration-300"
                     style={{
                         width: `${progress}%`,
+                        background: "green",
+                        height: "100%",
+                        borderRadius: "10px",
+                        transition: "width 0.3s ease",
                     }}
                 ></div>
             </div>

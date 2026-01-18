@@ -252,8 +252,7 @@ function App() {
         ))}
       </select>
 
-      <ProgressBar progress={progress} />
-
+        
       <SearchBar 
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
