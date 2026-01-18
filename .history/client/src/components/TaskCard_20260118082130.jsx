@@ -24,7 +24,7 @@ function TaskCard({ task, onToggle, onDelete}) {
                         </button>
 
                         <button
-                            className="bg-red-600 hover:bg-red-700 px-4 py-1.5 rounded-lg text-sm font-medium transition"
+                            className="bg-red hover:bg-red-700 px-3 py-1 rounded text-sm transition"
                             onClick={() => onDelete(task._id)}
                         >
                             Delete

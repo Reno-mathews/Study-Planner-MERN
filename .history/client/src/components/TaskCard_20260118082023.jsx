@@ -14,17 +14,16 @@ function TaskCard({ task, onToggle, onDelete}) {
                     <p className="text-sm text-gray-400">{task.subject}</p>
                     </div>
 
-                    {/* Right side buttons */}
                     <div className="flex gap-2">
                         <button
-                            className="bg-green-600 hove:bg-green-700 px-4 py-1.5 rounded-lg text-sm font-medium transition"
+                            className="bg-green-600 hove:bg-green-700 px-3 py-1 rounded text-sm transition"
                             onClick={() => onToggle(task._id)}
                         >
                             {task.completed ? "Undo" : "Done"}
                         </button>
 
                         <button
-                            className="bg-red-600 hover:bg-red-700 px-4 py-1.5 rounded-lg text-sm font-medium transition"
+                            className="bg-red hover:bg-red-700 px-3 py-1 rounded text-sm transition"
                             onClick={() => onDelete(task._id)}
                         >
                             Delete
