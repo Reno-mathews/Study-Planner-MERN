@@ -33,7 +33,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 5;
-
+  
   useEffect(() => {
     if(isLoggedIn) {
     fetchTasks();
@@ -169,13 +169,6 @@ function App() {
   const totalCount = filteredTasks.length;
 
   const progress = totalCount === 0 ? 0 : Math.round((completedCount / totalCount) * 100);
-
-  const totalPages = Math.ceil(sortedTasks.length / itemsPerPage);
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-
-  const paginatedTasks = sortedTasks.slice(startIndex, endIndex);
   
     if(!isLoggedIn) {
       return (
