@@ -212,10 +212,7 @@ function App() {
         subject={subject}
         setSubject={setSubject}
         addTask={addTask}
-        sortedTasks={paginatedTasks}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalPages={totalPages}
+        sortedTasks={sortedTasks}
         toggleComplete={toggleComplete}
         deleteTask={deleteTask}
         onLogout={() => {

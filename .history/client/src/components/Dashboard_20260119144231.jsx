@@ -73,10 +73,6 @@ function Dashboard({
                 />
 
                 <Pagination 
-                    currentPage={currentPage}
-                    totalPage={totalPages}
-                    setCurrentPage={setCurrentPage}
-                />
             </div>
         </div>
     );

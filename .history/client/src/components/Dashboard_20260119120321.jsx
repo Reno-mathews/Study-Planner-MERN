@@ -71,12 +71,6 @@ function Dashboard({
                     onToggle={toggleComplete}
                     onDelete={deleteTask}
                 />
-
-                <Pagination 
-                    currentPage={currentPage}
-                    totalPage={totalPages}
-                    setCurrentPage={setCurrentPage}
-                />
             </div>
         </div>
     );
