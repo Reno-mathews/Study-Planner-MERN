@@ -15,7 +15,8 @@ function App() {
   const [subject, setSubject] = useState("");
   const [filterSubject, setFilterSubject] = useState("All");
 
-
+  const getToken = () => localStorage.getItem("token");
+  const setToken = (token) => localStorage.setItem("token", token);
   const removeToken = () => localStorage.removeItem("token");
 
   const [email, setEmail] = useState("");
