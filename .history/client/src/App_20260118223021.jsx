@@ -201,7 +201,6 @@ function App() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         sortType={sortType}
-        setSortType={setSortType}
         newTask={newTask}
         setNewTask={setNewTask}
         subject={subject}

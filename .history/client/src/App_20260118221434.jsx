@@ -192,6 +192,8 @@ function App() {
     }
 
   return (
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-start py-10">
+      <div className="w-full max-w-md px-4 space-y-6 flex flex-col items-center">
       <Dashboard
         loading={loading}
         subjects={subjects}
@@ -201,7 +203,6 @@ function App() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         sortType={sortType}
-        setSortType={setSortType}
         newTask={newTask}
         setNewTask={setNewTask}
         subject={subject}
@@ -215,6 +216,8 @@ function App() {
           setIsLoggedIn(false);
         }}
       />
+</div>
+</div>
   );
 }
       

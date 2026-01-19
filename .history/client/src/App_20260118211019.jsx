@@ -9,7 +9,6 @@ import SubjectFilter from "./components/SubjectFilter";
 import Header from "./components/Header";
 import LogoutButton from "./components/LogoutButton";
 import LoadingSpinner from "./components/LoadingSpinner";
-import Dashboard from "./components/Dashboard";
 
 import {
   fetchTasksAPI,
@@ -192,29 +191,53 @@ function App() {
     }
 
   return (
-      <Dashboard
-        loading={loading}
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-start py-10">
+      <div className="w-full max-w-md px-4 space-y-6 flex flex-col items-center">
+      <Header />
+      {loading && <LoadingSpinner />}
+
+      <SubjectFilter 
         subjects={subjects}
         filterSubject={filterSubject}
         setFilterSubject={setFilterSubject}
-        progress={progress}
+      />
+
+      <ProgressBar progress={progress} />
+
+      <SearchBar 
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        sortType={sortType}
-        setSortType={setSortType}
-        newTask={newTask}
-        setNewTask={setNewTask}
-        subject={subject}
-        setSubject={setSubject}
-        addTask={addTask}
-        sortedTasks={sortedTasks}
-        toggleComplete={toggleComplete}
-        deleteTask={deleteTask}
+      />
+
+      {/* Sort */}
+
+        <SortDropdown
+          sortType={sortType}
+          setSortType={setSortType}
+        />
+        
+       <AddTaskForm
+          newTask={newTask}
+          setNewTask={setNewTask}
+          subject={subject}
+          setSubject={setSubject}
+          onSubmit={addTask}
+        />
+
+      <LogoutButton
         onLogout={() => {
-          removeToken();
+          localStorage.removeItem("token");
           setIsLoggedIn(false);
         }}
       />
+      <TaskList
+        tasks={sortedTasks}
+        onToggle={toggleComplete}
+        onDelete={deleteTask}>
+      </TaskList>
+      
+</div>
+</div>
   );
 }
       

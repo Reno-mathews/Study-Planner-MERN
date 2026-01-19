@@ -6,17 +6,6 @@ import AddTaskForm from "./components/AddTaskForm";
 import SortDropdown from "./components/SortDropdown";
 import AuthForm from "./components/AuthForm";
 import SubjectFilter from "./components/SubjectFilter";
-import Header from "./components/Header";
-import LogoutButton from "./components/LogoutButton";
-import LoadingSpinner from "./components/LoadingSpinner";
-import Dashboard from "./components/Dashboard";
-
-import {
-  fetchTasksAPI,
-  addTaskAPI,
-  toggleTaskAPI,
-  deleteTaskAPI,
-} from "./utils/api";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -46,66 +35,87 @@ function App() {
     }
   }, [isLoggedIn]);
 
-    const fetchTasks = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) return;
+  const fetchTasks = async () => {
+    const token = localStorage.getItem("token");
 
-      try {
-        setLoading(true);
-        const data = await fetchTasksAPI(token);
-        setTasks(Array.isArray(data) ? data : []);
-      } catch(err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
+    if (!token) return;
+
+    try { 
+    setLoading(true);
+
+    const res = await fetch("http://localhost:5000/api/tasks", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if(!res.ok) {
+      if (res.status === 401) {
+        setIsLoggedIn(false);
+        localStorage.removeItem("token");
+        return;
       }
-    };
+      throw new Error("Failed to fetch tasks");
+    }
+    const data = await res.json();
+    setTasks(Array.isArray(data) ? data: []);
+  } catch(err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+  };
+  const addTask = async (e) => {
+    e.preventDefault();
 
-    const addTask = async (e) => {
-      e.preventDefault();
-      if (!newTask || !subject) return;
+    if(!newTask || !subject) return;
 
-      const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-      try {
-        const data = await addTaskAPI(token, {
-          title: newTask,
-          subject,
-        });
+    const res = await fetch("http://localhost:5000/api/tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ title: newTask, subject}),
+    });
 
-        setTasks([...tasks, data]);
-        setNewTask("");
-        setSubject("");
-      } catch(err) {
-        console.error(err);
-      }
-    };
+    const data = await res.json();
+    setTasks([...tasks, data]);
+    setNewTask("");
+    setSubject("");
+  };
 
     const toggleComplete = async (id) => {
       const token = localStorage.getItem("token");
 
-      try {
-        const updatedTask = await toggleTaskAPI(token, id);
+      const res = await fetch(`http://localhost:5000/api/tasks/${id}`, {
+        method:"PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        setTasks(
-          tasks.map((task) =>
-          task._id === id? updatedTask: task
-          )
+      const updatedTask = await res.json();
+
+      setTasks(
+        tasks.map((task) =>
+        task._id === id ? updatedTask : task 
+      )
       );
-      } catch(err) {
-        console.error(err);
-      }
     };
 
-    const deleteTask = async(id) => {
+    const deleteTask = async (id) => {
       const token = localStorage.getItem("token");
+      await fetch(`http://localhost:5000/api/tasks/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      try {
-        await deleteTaskAPI(token, id);
-        setTasks(tasks.filter((task) => task._id !== id));
-      } catch(err) {
-        console.error(err);
-      }
+      setTasks(tasks.filter((task) => task._id !== id));
     };
 
     const subjects = ["All", ...new Set(tasks.map((task) => task.subject))];
@@ -192,29 +202,63 @@ function App() {
     }
 
   return (
-      <Dashboard
-        loading={loading}
-        subjects={subjects}
-        filterSubject={filterSubject}
-        setFilterSubject={setFilterSubject}
-        progress={progress}
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-start py-10">
+      <div className="w-full max-w-md px-4 space-y-6 flex flex-col items-center">
+      <h1 className="text-3xl font-bold"
+      >My Study Planner</h1>
+
+      <select 
+        className= "bg-gray-800 text-white px-4 py-2 rounded mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        value={filterSubject} 
+        onChange={(e) => setFilterSubject(e.target.value)}
+      >
+        {subjects.map((subj, index) => (
+          <option key={index} value={subj}>
+            {subj}
+          </option>
+        ))}
+      </select>
+
+      <ProgressBar progress={progress} />
+
+      <SearchBar 
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        sortType={sortType}
-        setSortType={setSortType}
-        newTask={newTask}
-        setNewTask={setNewTask}
-        subject={subject}
-        setSubject={setSubject}
-        addTask={addTask}
-        sortedTasks={sortedTasks}
-        toggleComplete={toggleComplete}
-        deleteTask={deleteTask}
-        onLogout={() => {
-          removeToken();
-          setIsLoggedIn(false);
-        }}
       />
+
+      {/* Sort */}
+
+        <SortDropdown
+          sortType={sortType}
+          setSortType={setSortType}
+        />
+        
+       <AddTaskForm
+          newTask={newTask}
+          setNewTask={setNewTask}
+          subject={subject}
+          setSubject={setSubject}
+          onSubmit={addTask}
+        />
+
+      <button 
+        className="mb-6 bg-red-600 hover:bg-red-700 px-4 py-2 rounded font-semibold transition"
+        onClick={() => {
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
+      }}
+      >
+
+        Logout
+      </button>
+      <TaskList
+        tasks={sortedTasks}
+        onToggle={toggleComplete}
+        onDelete={deleteTask}>
+      </TaskList>
+      
+</div>
+</div>
   );
 }
       

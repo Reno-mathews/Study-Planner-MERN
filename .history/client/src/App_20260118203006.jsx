@@ -9,7 +9,6 @@ import SubjectFilter from "./components/SubjectFilter";
 import Header from "./components/Header";
 import LogoutButton from "./components/LogoutButton";
 import LoadingSpinner from "./components/LoadingSpinner";
-import Dashboard from "./components/Dashboard";
 
 import {
   fetchTasksAPI,
@@ -46,67 +45,7 @@ function App() {
     }
   }, [isLoggedIn]);
 
-    const fetchTasks = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) return;
-
-      try {
-        setLoading(true);
-        const data = await fetchTasksAPI(token);
-        setTasks(Array.isArray(data) ? data : []);
-      } catch(err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const addTask = async (e) => {
-      e.preventDefault();
-      if (!newTask || !subject) return;
-
-      const token = localStorage.getItem("token");
-
-      try {
-        const data = await addTaskAPI(token, {
-          title: newTask,
-          subject,
-        });
-
-        setTasks([...tasks, data]);
-        setNewTask("");
-        setSubject("");
-      } catch(err) {
-        console.error(err);
-      }
-    };
-
-    const toggleComplete = async (id) => {
-      const token = localStorage.getItem("token");
-
-      try {
-        const updatedTask = await toggleTaskAPI(token, id);
-
-        setTasks(
-          tasks.map((task) =>
-          task._id === id? updatedTask: task
-          )
-      );
-      } catch(err) {
-        console.error(err);
-      }
-    };
-
-    const deleteTask = async(id) => {
-      const token = localStorage.getItem("token");
-
-      try {
-        await deleteTaskAPI(token, id);
-        setTasks(tasks.filter((task) => task._id !== id));
-      } catch(err) {
-        console.error(err);
-      }
-    };
+  
 
     const subjects = ["All", ...new Set(tasks.map((task) => task.subject))];
 
@@ -192,29 +131,53 @@ function App() {
     }
 
   return (
-      <Dashboard
-        loading={loading}
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-start py-10">
+      <div className="w-full max-w-md px-4 space-y-6 flex flex-col items-center">
+      <Header />
+      {loading && <LoadingSpinner />}
+
+      <SubjectFilter 
         subjects={subjects}
         filterSubject={filterSubject}
         setFilterSubject={setFilterSubject}
-        progress={progress}
+      />
+
+      <ProgressBar progress={progress} />
+
+      <SearchBar 
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        sortType={sortType}
-        setSortType={setSortType}
-        newTask={newTask}
-        setNewTask={setNewTask}
-        subject={subject}
-        setSubject={setSubject}
-        addTask={addTask}
-        sortedTasks={sortedTasks}
-        toggleComplete={toggleComplete}
-        deleteTask={deleteTask}
+      />
+
+      {/* Sort */}
+
+        <SortDropdown
+          sortType={sortType}
+          setSortType={setSortType}
+        />
+        
+       <AddTaskForm
+          newTask={newTask}
+          setNewTask={setNewTask}
+          subject={subject}
+          setSubject={setSubject}
+          onSubmit={addTask}
+        />
+
+      <LogoutButton
         onLogout={() => {
-          removeToken();
+          localStorage.removeItem("token");
           setIsLoggedIn(false);
         }}
       />
+      <TaskList
+        tasks={sortedTasks}
+        onToggle={toggleComplete}
+        onDelete={deleteTask}>
+      </TaskList>
+      
+</div>
+</div>
   );
 }
       
