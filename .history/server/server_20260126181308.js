@@ -17,7 +17,7 @@ app.use(
     cors({
     origin: [
         "http://localhost:5173", // Vite dev
-        "https://reno-mathews-study-planner-mern.vercel.app",
+        "https://https://reno-mathews-study-planner-mern.vercel.app",
     ],
     credentials: true,
 })
@@ -129,6 +129,6 @@ app.post("/api/auth/login", async (req,res) => {
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`Server running on ${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });
 

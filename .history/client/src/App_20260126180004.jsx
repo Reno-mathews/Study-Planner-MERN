@@ -11,15 +11,13 @@ import {
   deleteTaskAPI,
 } from "./utils/api";
 
-const API_URL = import.meta.env.VITE_API_URL;
-
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [subject, setSubject] = useState("");
   const [filterSubject, setFilterSubject] = useState("All");
 
-  
+  const API_URL = import.meta.env.VITE_API_URL;
 
 
   const removeToken = () => localStorage.removeItem("token");
@@ -135,7 +133,7 @@ function App() {
 
       const login = async (e) => {
       e.preventDefault();
-      const res = await fetch(`${API_URL}/api/auth/login`, {
+      const res = await fetch("https://study-planner-mern.onrender.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -157,7 +155,7 @@ function App() {
     const signup = async (e) => {
       e.preventDefault();
 
-      const res = await fetch(`${API_URL}/api/auth/register`, {
+      const res = await fetch("https://study-planner-mern.onrender.com/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type" : "application/json",

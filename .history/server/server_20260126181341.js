@@ -17,7 +17,7 @@ app.use(
     cors({
     origin: [
         "http://localhost:5173", // Vite dev
-        "https://reno-mathews-study-planner-mern.vercel.app",
+        "https://https://reno-mathews-study-planner-mern.vercel.app",
     ],
     credentials: true,
 })

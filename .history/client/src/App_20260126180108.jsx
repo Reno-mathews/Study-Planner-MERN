@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import AuthForm from "./components/AuthForm";
 import Dashboard from "./components/Dashboard";
 
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 import {
   fetchTasksAPI,
@@ -10,8 +10,6 @@ import {
   toggleTaskAPI,
   deleteTaskAPI,
 } from "./utils/api";
-
-const API_URL = import.meta.env.VITE_API_URL;
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -157,7 +155,7 @@ function App() {
     const signup = async (e) => {
       e.preventDefault();
 
-      const res = await fetch(`${API_URL}/api/auth/register`, {
+      const res = await fetch("https://study-planner-mern.onrender.com/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type" : "application/json",
